@@ -1,0 +1,227 @@
+#include "back/s21_smartcalc.h"
+
+#test smart_1
+char str[] = "-(-1)";
+double result = 0;
+double origin = 1;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_2
+char str[] = "-()*7";
+double result = 0;
+double origin = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -3);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_3
+char str[] = "35+cos(0)";
+double result = 0;
+double origin = 36;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_4
+char str[] = "cos(4-2+sqrt(4))";
+double result = 0;
+double origin = -0.65364362086;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_5
+char str[] = "sin(cos((4)-(8)-2))";
+double result = 0;
+double origin = 0.81928921922;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_6
+char str[] = "1-sin(cos(4-2+sqrt(4)-(6/3)-2))";
+double result = 0;
+double origin = 0.15852901519;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_7
+char str[] = "4 * (- 1)";
+double result = 0;
+double origin = -4;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_8
+char str[] = "(14mod3^sin(1))";
+double result = 0;
+double origin = 1.39758733594;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_9
+char str[] = "sqrt(cos( sin(2+9*6^1.2-tan(0))) ) mod0.1";
+double result = 0;
+double origin = 0.08577813986;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_10
+char str[] = "-5.0mod(-3.0)";
+double result = 0;
+double origin = -2;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_11
+char str[] = "tg(2))";
+double result = 0;
+double origin = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -2);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_12
+char str[] = "1+2+(3*4)+(5.1+6.8)";
+double result = 0;
+double origin = 26.9;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_13
+char str[] = "-5.0mod(-3.5.0)";
+double result = 0;
+double origin = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -1);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_14
+char str[] = "3+4*2/(1-5)^2^3";
+double result = 0;
+double origin = 3.00012207031;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_15
+char str[] = "ln(2)+log(5)";
+double result = 0;
+double origin = 1.3921171849;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_16
+char str[] = "3+tan(x)";
+double result = 1;
+double origin = 4.55740772465;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_17
+char str[] = "func3+tan(x)";
+double result = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -2);
+
+#test smart_18
+char str[] = ")3+tan(x)(";
+double result = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -3);
+
+#test smart_19
+char str[] = "2^3^2";
+double result = 0;
+double origin = 512;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_20
+char str[] = "2^3*2";
+double result = 0;
+double origin = 16;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_21
+char str[] = "cos(3)";
+double result = 0;
+double origin = -0.9899924966;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_22
+char str[] = "-2^2";
+double result = 0;
+double origin = -4;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_23
+char str[] = "cos(3)^2";
+double result = 0;
+double origin = 0.98008514332;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_24
+char str[] = "1.77215424758523+0.201357920790331*0.785398163397448";
+double result = 0;
+double origin = 1.93030038876;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_25
+char str[] = "acos(-0.2)";
+double result = 0;
+double origin = 1.772154247;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_26
+char str[] = "asin(0.2)";
+double result = 0;
+double origin = 0.201357920790;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_27
+char str[] = "atan(1)";
+double result = 0;
+double origin = 0.7853981633974;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_28
+char str[] = "acos(-0.2)+asin(0.2)";
+double result = 0;
+double origin = 1.97351216838;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, 0);
+ck_assert_ldouble_eq_tol(origin, result, EPS);
+
+#test smart_29
+char str[] = "*sin(3)+tan(x)";
+double result = 0;
+int check = smartcalc(str, &result);
+ck_assert_int_eq(check, -3);
